@@ -1,10 +1,12 @@
 import pygame
 import random
+import os
 
 # 设置游戏屏幕大小
 SCREEN_WIDTH = 480
 SCREEN_HEIGHT = 800
 
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 # 子弹类
 class Bullet(pygame.sprite.Sprite):
