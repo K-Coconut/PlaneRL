@@ -129,8 +129,8 @@ class BrainDQN:
             self.stateInput: state_batch
         })
 
-        # save network every 100000 iteration
-        if self.timeStep % 10000 == 0:
+        # save network every 2000 iteration
+        if self.timeStep % 2000 == 0:
             self.saver.save(self.session, 'saved_networks/' + 'network' + '-dqn', global_step=self.timeStep)
 
         if self.timeStep % UPDATE_TIME == 0:
