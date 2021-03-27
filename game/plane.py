@@ -210,6 +210,7 @@ class GameState:
 
         text_rect = score_text.get_rect()
         text_rect.topleft = [10, 10]
+        self.screen.fill((0,0,0), text_rect)
         self.screen.blit(score_text, text_rect)
 
         image_data = pygame.surfarray.array3d(pygame.display.get_surface())
