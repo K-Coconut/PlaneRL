@@ -49,6 +49,7 @@ class BrainDQN:
         # saving and loading networks
         self.saver = tf.train.Saver()
         self.session = tf.InteractiveSession()
+        self.merge_summary = tf.summary.merge_all()
         self.session.run(tf.initialize_all_variables())
         checkpoint = tf.train.get_checkpoint_state("saved_networks")
         if checkpoint and checkpoint.model_checkpoint_path:
@@ -104,6 +105,8 @@ class BrainDQN:
         self.cost = tf.reduce_mean(tf.square(self.yInput - Q_Action))
         self.trainStep = tf.train.AdamOptimizer(1e-6).minimize(self.cost)
 
+        tf.summary.scalar('loss', self.cost)
+
     def trainQNetwork(self):
 
         # Step 1: obtain random minibatch from replay memory
@@ -123,7 +126,7 @@ class BrainDQN:
             else:
                 y_batch.append(reward_batch[i] + GAMMA * np.max(QValue_batch[i]))
 
-        self.trainStep.run(feed_dict={
+        self.trainStep.run(self.merge_summary, feed_dict={
             self.yInput: y_batch,
             self.actionInput: action_batch,
             self.stateInput: state_batch

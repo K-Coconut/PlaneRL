@@ -4,6 +4,7 @@ import sys
 sys.path.append("game/")
 import plane as game
 from BrainDQN_Nature import BrainDQN
+import tensorflow as tf
 import numpy as np
 
 
@@ -18,6 +19,7 @@ def playPlane():
     # Step 1: init BrainDQN
     actions = 3
     brain = BrainDQN(actions)
+    summary_writer = tf.summary.FileWriter('./tensorboard', brain.session.graph)
     # Step 2: init Plane Game
     plane = game.GameState()
     # Step 3: play game
@@ -30,11 +32,21 @@ def playPlane():
     brain.setInitState(observation0)
 
     # Step 3.2: run the game
+    step = 0
+    round = 0
     while 1 != 0:
         action = brain.getAction()
         nextObservation, reward, terminal = plane.frame_step(action)
         nextObservation = preprocess(nextObservation)
+        summary_reward = tf.Summary(value=[tf.Summary.Value(tag="reward", simple_value=reward)])
+        summary_writer.add_summary(summary_reward, step)
+        if terminal:
+            score = tf.Summary(value=[tf.Summary.Value(tag="score", simple_value=plane.score)])
+            print('score: ', plane.score)
+            summary_writer.add_summary(score, round)
+            round += 1
         brain.setPerception(nextObservation, action, reward, terminal)
+        step += 1
 
 
 def main():
