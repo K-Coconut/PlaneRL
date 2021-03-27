@@ -46,9 +46,12 @@ class BrainDQN:
 
         self.createTrainingMethod()
 
+        # config
+        config = tf.ConfigProto(log_device_placement=True)
+
         # saving and loading networks
         self.saver = tf.train.Saver()
-        self.session = tf.InteractiveSession()
+        self.session = tf.InteractiveSession(config=config)
         self.merge_summary = tf.summary.merge_all()
         self.session.run(tf.initialize_all_variables())
         checkpoint = tf.train.get_checkpoint_state("saved_networks")
