@@ -34,16 +34,18 @@ def playPlane():
     # Step 3.2: run the game
     step = 0
     round = 0
+    score = 0
     while 1 != 0:
         action = brain.getAction()
         nextObservation, reward, terminal = plane.frame_step(action)
         nextObservation = preprocess(nextObservation)
         summary_reward = tf.Summary(value=[tf.Summary.Value(tag="reward", simple_value=reward)])
         summary_writer.add_summary(summary_reward, step)
+        if not terminal:
+            score = plane.score
         if terminal:
-            score = tf.Summary(value=[tf.Summary.Value(tag="score", simple_value=plane.score)])
-            print('score: ', plane.score)
-            summary_writer.add_summary(score, round)
+            summary_score = tf.Summary(value=[tf.Summary.Value(tag="score", simple_value=score)])
+            summary_writer.add_summary(summary_score, round)
             round += 1
         brain.setPerception(nextObservation, action, reward, terminal)
         step += 1
