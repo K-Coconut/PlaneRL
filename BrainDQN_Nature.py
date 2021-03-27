@@ -50,7 +50,7 @@ class BrainDQN:
         config = tf.ConfigProto(log_device_placement=True)
 
         # saving and loading networks
-        self.saver = tf.train.Saver(max_to_keep=1e3)
+        self.saver = tf.train.Saver(max_to_keep=10000)
         self.session = tf.InteractiveSession(config=config)
         self.merge_summary = tf.summary.merge_all()
         self.session.run(tf.initialize_all_variables())
