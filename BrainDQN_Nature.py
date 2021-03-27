@@ -50,7 +50,7 @@ class BrainDQN:
         config = tf.ConfigProto(log_device_placement=True)
 
         # saving and loading networks
-        self.saver = tf.train.Saver()
+        self.saver = tf.train.Saver(max_to_keep=1e3)
         self.session = tf.InteractiveSession(config=config)
         self.merge_summary = tf.summary.merge_all()
         self.session.run(tf.initialize_all_variables())
@@ -129,14 +129,14 @@ class BrainDQN:
             else:
                 y_batch.append(reward_batch[i] + GAMMA * np.max(QValue_batch[i]))
 
-        self.trainStep.run(self.merge_summary, feed_dict={
+        self.trainStep.run(feed_dict={
             self.yInput: y_batch,
             self.actionInput: action_batch,
             self.stateInput: state_batch
         })
 
-        # save network every 2000 iteration
-        if self.timeStep % 2000 == 0:
+        # save network every 10000 iteration
+        if self.timeStep % 10000 == 0:
             self.saver.save(self.session, 'saved_networks/' + 'network' + '-dqn', global_step=self.timeStep)
 
         if self.timeStep % UPDATE_TIME == 0:
