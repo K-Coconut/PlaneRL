@@ -94,6 +94,7 @@ def train(agent, n_episode, num_frame, n_update=4, update_frequency=1, max_t=150
 
 
 def main():
+    print("Using device: ", DEVICE)
     os.system('mkdir -p saved_networks/{}/'.format(ALGORITHM))
 
     n_action = 3

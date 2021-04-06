@@ -50,7 +50,7 @@ def preprocess(observation):
 
 def _get_path(algorithm):
     fs = os.listdir('saved_networks/{}/'.format(algorithm))
-    fs = sorted(fs, key=lambda x: x.split('-')[-1], reverse=False)
+    fs = sorted(fs, key=lambda x: int(x.split('-')[-1]), reverse=False)
     if not fs: return None, 0
     epoch = int(fs[-1].split('-')[-1])
     path = 'saved_networks/{}/network-{}'.format(algorithm, epoch)
