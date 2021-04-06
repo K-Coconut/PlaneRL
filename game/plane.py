@@ -1,12 +1,17 @@
 import pygame
 import random
+import platform
 import os
 
 # 设置游戏屏幕大小
 SCREEN_WIDTH = 480
 SCREEN_HEIGHT = 800
+# 帧率
+FRAME_PER_SEC = 10000
 
-os.environ["SDL_VIDEODRIVER"] = "dummy"
+system = platform.platform()
+if 'Linux' in system:
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 # 子弹类
 class Bullet(pygame.sprite.Sprite):
@@ -119,9 +124,15 @@ class GameState:
         # 初始化分数
         self.score = 0
 
+    def reset(self):
+        self.__init__()
+        actions = [1, 0, 0]
+        observations, _, _ = self.frame_step(actions)
+        return observations
+
     def frame_step(self, input_actions):
         terminal = False
-        reward = 0.1
+        reward = -0.1
         # 控制游戏最大帧率为 30
         # 生成子弹，需要控制发射频率
         # 首先判断玩家飞机没有被击中
@@ -218,5 +229,5 @@ class GameState:
         image_data = pygame.surfarray.array3d(pygame.display.get_surface())
         pygame.display.update()
         clock = pygame.time.Clock()
-        clock.tick(30)
+        clock.tick(FRAME_PER_SEC)
         return image_data, reward, terminal
