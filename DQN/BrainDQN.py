@@ -47,7 +47,7 @@ class BrainDQN:
         self.createTrainingMethod()
 
         # config
-        config = tf.ConfigProto(log_device_placement=True)
+        config = tf.ConfigProto()
 
         # saving and loading networks
         self.saver = tf.train.Saver(max_to_keep=10000)
@@ -137,7 +137,7 @@ class BrainDQN:
 
         # save network every 10000 iteration
         if self.timeStep % 10000 == 0:
-            self.saver.save(self.session, 'saved_networks/' + 'network' + '-dqn', global_step=self.timeStep)
+            self.saver.save(self.session, 'saved_networks/{}'.format('DQN') + 'network' + '-dqn', global_step=self.timeStep)
 
         if self.timeStep % UPDATE_TIME == 0:
             self.copyTargetQNetwork()
@@ -161,10 +161,7 @@ class BrainDQN:
         else:
             state = "train"
 
-        print("TIMESTEP", self.timeStep, "/ STATE", state, \
-              "/ EPSILON", self.epsilon, "/ REWARD", reward)
-
-        self.currentState = newState    # fixme newstate size
+        self.currentState = newState
         self.timeStep += 1
 
     def getAction(self):
