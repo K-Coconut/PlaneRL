@@ -18,7 +18,7 @@ epsilon = 0.05
 td_init = 1
 
 # Training parameters
-RAM_NUM_EPISODE = 3000
+RAM_NUM_EPISODE = 100000
 EPS_INIT = 1
 EPS_DECAY = 0.995
 EPS_MIN = 0.05
