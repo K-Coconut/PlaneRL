@@ -1,18 +1,10 @@
 import cv2
-import sys
-
-sys.path.append("game/")
-import plane as game
-from BrainDQN_Nature import BrainDQN
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 
-
-# preprocess raw image to 80*80 gray image
-def preprocess(observation):
-    observation = cv2.cvtColor(cv2.resize(observation, (80, 80)), cv2.COLOR_BGR2GRAY)  # 灰度转化
-    ret, observation = cv2.threshold(observation, 1, 255, cv2.THRESH_BINARY)
-    return np.reshape(observation, (80, 80, 1))
+from game import plane as game
+from DQN.BrainDQN import BrainDQN
+from util import preprocess
 
 
 def playPlane():

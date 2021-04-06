@@ -4,12 +4,12 @@ import torch
 import torch.optim as optim
 import numpy as np
 
-from networks import *
-from ReplayBuffer import Replay_Buffer, Rank_Replay_Buffer, Proportion_Replay_Buffer
+from DDQN.networks import *
+from DDQN.ReplayBuffer import Replay_Buffer, Rank_Replay_Buffer, Proportion_Replay_Buffer
 
 class Agent:
 
-    def __init__(self, state_size, action_size, bs, lr, tau, gamma, device, visual=False, duel=False, double=False, prioritized=False):
+    def __init__(self, state_size, action_size, bs, lr, tau, gamma, device, duel=False, double=False, prioritized=False):
         '''
         When dealing with visual inputs, state_size should work as num_of_frame
         '''
@@ -22,12 +22,8 @@ class Agent:
         self.device = device
         self.double = double
         self.prioritized = prioritized
-        if visual:
-            self.Q_local = Visual_Q_Network(self.state_size, self.action_size, duel=duel).to(self.device)
-            self.Q_target = Visual_Q_Network(self.state_size, self.action_size, duel=duel).to(self.device)
-        else:
-            self.Q_local = Q_Network(self.state_size, self.action_size, duel=duel).to(device)
-            self.Q_target = Q_Network(self.state_size, self.action_size, duel=duel).to(device)
+        self.Q_local = Q_Network(self.state_size, self.action_size, duel=duel).to(self.device)
+        self.Q_target = Q_Network(self.state_size, self.action_size, duel=duel).to(self.device)
         self.soft_update(1)
         self.optimizer = optim.Adam(self.Q_local.parameters(), self.lr)
         if not self.prioritized:
