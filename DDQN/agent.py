@@ -10,6 +10,7 @@ from DDQN.ReplayBuffer import Replay_Buffer, Rank_Replay_Buffer, Proportion_Repl
 class Agent(nn.Module):
 
     def __init__(self, state_size, action_size, bs, lr, tau, gamma, device, duel=False, double=False, prioritized=False):
+        super(Agent, self).__init__()
         '''
         When dealing with visual inputs, state_size should work as num_of_frame
         '''
