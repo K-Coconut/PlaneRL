@@ -7,7 +7,7 @@ import numpy as np
 from DDQN.networks import *
 from DDQN.ReplayBuffer import Replay_Buffer, Rank_Replay_Buffer, Proportion_Replay_Buffer
 
-class Agent:
+class Agent(nn.Module):
 
     def __init__(self, state_size, action_size, bs, lr, tau, gamma, device, duel=False, double=False, prioritized=False):
         '''
@@ -32,6 +32,9 @@ class Agent:
             #self.memory = Rank_Replay_Buffer(int(1e5), bs)
             # or
             self.memory = Proportion_Replay_Buffer(int(1e5), bs)
+
+    def foward(self):
+        pass
 
     def act(self, state, eps=0):
         if random.random() > eps:
