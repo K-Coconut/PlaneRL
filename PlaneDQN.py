@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from tqdm import tqdm
 import cv2
@@ -71,6 +72,7 @@ def playPlane(n_episode, max_t):
 
 
 def main():
+    os.system('mkdir -p saved_networks/{}'.format(ALGORITHM))
     playPlane(RAM_NUM_EPISODE, MAX_T)
 
 
