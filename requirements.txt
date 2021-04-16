@@ -1,0 +1,7 @@
+opencv_python==4.5.1.48
+torch==1.7.1
+tensorflow==2.4.1
+pygame==2.0.1
+tqdm==4.50.2
+numpy==1.19.2
+tensorboardX==2.2
